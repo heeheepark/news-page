@@ -17,7 +17,6 @@ function closeNav() {
 
 function openSearch() {
   let searchBox = document.getElementById("searchBox");
-  let goBtn = document.getElementById("goBtn");
 
   if (searchBox.style.display == "none") {
     searchBox.style.display = "inline";
@@ -33,7 +32,7 @@ const getNews = async() => {
     let header = new Headers({'x-api-key': 'oAvWmBUz4k9rpoOW12-1i9l3pG1FJPdyZUBlyCJG01M'})
     url.searchParams.set('page', page);
     let response = await fetch(url, {headers:header}); //await을 이용해서 기다리게 명령 await-async는 세트
-    let data = await response.json() // json은 객체랑 똑같으나 텍스트타입일 뿐이다. json을 뽑아오면 객체처럼 쓸 수 있음.
+    let data = await response.json() // json은 서버 통신에서 많이 쓰이는 자료형 타입이다. json은 객체랑 똑같으나 텍스트타입일 뿐이다. json을 뽑아오면 객체처럼 쓸 수 있음.
 
     if(response.status == 200) {
       news = data.articles;
@@ -46,7 +45,6 @@ const getNews = async() => {
       throw new Error(data.message)
     }
   } catch(error) {
-  console.log("잡힌 에러는", error.message);
   errorRender(error.message);
   }
 }
@@ -136,7 +134,7 @@ const pagenation = () => {
     pagenationHTML += `<li class="page-item ${page == i ? "active" : ""}"><a class="page-link" href="#" onclick="moveToPage(${i})">${i}</a></li>`
   }
 
-  if (lastpageGroup != pageGroup) {
+  if (last < total_pages) {
     pagenationHTML += `<li class="page-item">
       <a class="page-link" href="#" aria-label="Next" onclick="moveToPage(${page + 1})">
         <span aria-hidden="true">&gt;</span>
